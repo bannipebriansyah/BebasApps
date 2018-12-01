@@ -1,0 +1,28 @@
+sudo: required
+dist: trusty
+language: php
+
+# versi php
+php:
+  - 7.2
+
+# branch yang digunakan
+branches:
+only:
+  - master #-> QA/Staging server
+  - develop #-> DevServer 
+
+
+
+# precompile
+before_script:
+- cp .env.travis .env
+- composer install --no-interaction
+- php artisan key:generate
+
+# Main Execution (test)
+script:
+- ./vendor/bin/phpunit
+
+#deploy
+after_succes:
